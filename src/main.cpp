@@ -6,6 +6,7 @@
 #include <Preferences.h>
 
 #define TMP36_PIN 34  // TMP36 analog pin
+#define ACCELERATION_SCALING 1000.0f  // Scaling factor to convert m/s² to mm/s² 
 
 // WiFi configuration
 Preferences preferences;
@@ -168,9 +169,9 @@ void loop() {
     sensors_event_t accel, gyro, temp;
     mpu.getEvent(&accel, &gyro, &temp);
 
-    float accelX = accel.acceleration.x;
-    float accelY = accel.acceleration.y;
-    float accelZ = accel.acceleration.z;
+    float accelX = accel.acceleration.x * ACCELERATION_SCALING; // Scaling from m/s² to mm/s²
+    float accelY = accel.acceleration.y * ACCELERATION_SCALING; // Scaling from m/s² to mm/s²
+    float accelZ = accel.acceleration.z * ACCELERATION_SCALING; // Scaling from m/s² to mm/s²
 
     // Update Temperature
     UA_Variant tempValue;
